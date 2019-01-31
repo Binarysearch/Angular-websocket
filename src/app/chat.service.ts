@@ -12,7 +12,7 @@ export interface Message {
 
 @Injectable()
 export class ChatService {
-	public subject: Subject<Message>;
+	private subject: Subject<Message>;
 
 	constructor(wsService: WebsocketService) {
 		this.subject = <Subject<Message>>wsService
@@ -24,7 +24,15 @@ export class ChatService {
             author: data.author,
             message: data.message
           }
-        }
-      ));
-	}
+        })
+      );
+  }
+  
+  send(msg: Message){
+    this.subject.next(msg);
+  }
+
+  onMessageReceived(callback: (value: Message) => void){
+    this.subject.subscribe(callback);
+  }
 }
