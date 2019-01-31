@@ -10,7 +10,9 @@ export interface Message {
 	message: string
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ChatService {
 	private subject: Subject<Message>;
 
